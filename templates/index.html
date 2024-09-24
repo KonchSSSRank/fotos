@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+<head>
+  <title>Распознавание текста</title>
+</head>
+<body>
+  <h1>Распознавание текста с изображения</h1>
+  <form method="POST" enctype="multipart/form-data">
+    <input type="file" name="image">
+    <button type="submit">Распознать</button>
+  </form>
+  <div id="result" class="output-box"></div>
+
+  <script>
+    const form = document.querySelector('form');
+    const result = document.getElementById('result');
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+
+      const formData = new FormData(form);
+
+      try {
+        const response = await fetch('/', {
+          method: 'POST',
+          body: formData
+        });
+
+        const data = await response.json();
+
+        if (data.text) {
+          result.innerHTML = `<p>${data.text}</p>`;
+        } else if (data.error) {
+          result.innerHTML = `<p>Ошибка: ${data.error}</p>`;
+        }
+      } catch (error) {
+        result.innerHTML = `<p>Ошибка: ${error.message}</p>`;
+      }
+    });
+  </script>
+</body>
+</html>
