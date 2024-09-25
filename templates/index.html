@@ -30,7 +30,8 @@
         const data = await response.json();
 
         if (data.text) {
-          result.innerHTML = `<p>${data.text}</p>`;
+          result.innerHTML = `<p>Текст: ${data.text}</p>
+                              <p><img src="${data.image_path}" width="200" /></p>`;
         } else if (data.error) {
           result.innerHTML = `<p>Ошибка: ${data.error}</p>`;
         }
